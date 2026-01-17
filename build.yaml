@@ -1,4 +1,4 @@
-name: Build ZMK Firmware
+name: Build 24key BLE Firmware
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
         with:
           submodules: recursive
 
-      # 2️⃣ 安裝依賴
+      # 2️⃣ 安裝編譯依賴
       - name: Install Dependencies
         run: |
           sudo apt update
@@ -31,12 +31,12 @@ jobs:
       - name: Update West Modules
         run: west update
 
-      # 4️⃣ Build firmware
-      - name: Build 24key BLE Firmware
+      # 4️⃣ Build 24key BLE Firmware
+      - name: Build Firmware
         run: |
           west build -d build -b nice_nano app -- -DSHIELD=24key_ble
-          
-      # 5️⃣ 上傳 artifact（可選）
+
+      # 5️⃣ 上傳編譯好的韌體（可選）
       - name: Upload Firmware
         uses: actions/upload-artifact@v3
         with:
