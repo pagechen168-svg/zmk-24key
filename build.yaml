@@ -1,6 +1,5 @@
 name: Build 24key BLE Firmware
 
-# 觸發條件
 on:
   push:
     branches:
@@ -12,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 取得 ZMK firmware
-      - name: Checkout ZMK Firmware
+      # 1️⃣ 取得 firmware repo + submodules
+      - name: Checkout Firmware
         uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -32,11 +31,15 @@ jobs:
       - name: Update West Modules
         run: west update
 
-      # 4️⃣ 編譯你的 24key BLE 韌體
-      - name: Build Firmware
-        run: west build -d build -b nice_nano app -- -DSHIELD=24key_ble
+      # 4️⃣ 列出 firmware 裡的 shields (確認 CMake 可以看到)
+      - name: List Shields
+        run: ls -R zmk-24key/app/shields
 
-      # 5️⃣ 上傳編譯好的韌體
+      # 5️⃣ Build Firmware
+      - name: Build Firmware
+        run: west build -d build -b nice_nano zmk-24key/app -- -DSHIELD=24key_ble
+
+      # 6️⃣ 上傳編譯好的韌體
       - name: Upload Firmware
         uses: actions/upload-artifact@v3
         with:
