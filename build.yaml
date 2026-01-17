@@ -31,9 +31,15 @@ jobs:
       - name: Update West Modules
         run: west update
 
-      # 4️⃣ 列出 firmware 裡的 shields (確認 CMake 可以看到)
-      - name: List Shields
-        run: ls -R zmk-24key/app/shields
+      # 4️⃣ 確認 24key_ble shield 是否存在
+      - name: Check 24key_ble Shield
+        run: |
+          SHIELD_PATH="zmk-24key/app/shields/24key_ble"
+          if [ ! -d "$SHIELD_PATH" ]; then
+            echo "Error: 24key_ble shield not found at $SHIELD_PATH"
+            exit 1
+          fi
+          echo "24key_ble shield found."
 
       # 5️⃣ Build Firmware
       - name: Build Firmware
