@@ -41,11 +41,23 @@ jobs:
           fi
           echo "24key_ble shield found."
 
-      # 5️⃣ Build Firmware
+      # 5️⃣ 列出 shield 內容，方便 debug
+      - name: List 24key_ble Shield Contents
+        run: |
+          SHIELD_PATH="zmk-24key/app/shields/24key_ble"
+          echo "Listing files in $SHIELD_PATH:"
+          ls -R "$SHIELD_PATH"
+          echo "Showing first 20 lines of each file:"
+          for file in $(find "$SHIELD_PATH" -type f); do
+            echo "==== $file ===="
+            head -n 20 "$file"
+          done
+
+      # 6️⃣ Build Firmware
       - name: Build Firmware
         run: west build -d build -b nice_nano zmk-24key/app -- -DSHIELD=24key_ble
 
-      # 6️⃣ 上傳編譯好的韌體
+      # 7️⃣ 上傳編譯好的韌體
       - name: Upload Firmware
         uses: actions/upload-artifact@v3
         with:
