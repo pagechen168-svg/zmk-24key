@@ -1,0 +1,7 @@
+menu "24 Key BLE Shield"
+
+config SHIELD_24KEY_BLE
+    bool "Enable 24key BLE shield"
+    default y
+
+endmenu
