@@ -1,42 +1,22 @@
-name: Build 24key BLE Firmware
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1️⃣ 取出 ZMK firmware
       - name: Checkout ZMK Firmware
         uses: actions/checkout@v3
         with:
           submodules: recursive
-
-      # 2️⃣ 安裝編譯依賴
       - name: Install Dependencies
         run: |
           sudo apt update
           sudo apt install -y ninja-build cmake gcc g++ python3-pip dtc
           python3 -m pip install --upgrade west
-
-      # 3️⃣ 初始化 west
       - name: Initialize West
         run: west init -l .
-      
       - name: Update West Modules
         run: west update
-
-      # 4️⃣ Build 24key BLE Firmware
       - name: Build Firmware
-        run: |
-          west build -d build -b nice_nano app -- -DSHIELD=24key_ble
-
-      # 5️⃣ 上傳編譯好的韌體（可選）
+        run: west build -d build -b nice_nano app -- -DSHIELD=24key_ble
       - name: Upload Firmware
         uses: actions/upload-artifact@v3
         with:
