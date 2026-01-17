@@ -2,6 +2,7 @@
 # This file generates the GitHub Actions matrix for building ZMK firmware.
 # Only one board + shield combination is included here: nice_nano_v2 + 24key_ble.
 
+---
 include:
-  - board: nice_nano_v2
+  - board: nice_nano
     shield: 24key_ble
